@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pengguna Github</string>
+    <string name="detail_tittle">Detail Pengguna</string>
+    <string name="username">namapengguna</string>
+    <string name="user_id">id_pengguna</string>
+    <string name="menu_title">menu1</string>
+    <string name="search_hint">Masukan username</string>
+    <string name="name_tab_one">Pengikut</string>
+    <string name="name_tab_two">Diikuti</string>
+</resources>
