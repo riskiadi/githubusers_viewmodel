@@ -2,10 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/search_menu"
-        android:title="@string/menu_title"
+    <item
+        android:id="@+id/search_menu"
         android:icon="@drawable/ic_baseline_search_24"
+        android:title="@string/menu_title"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="collapseActionView|always"/>
+        app:showAsAction="collapseActionView|always" />
+
+    <item
+        android:id="@+id/fav_menu"
+        android:icon="@drawable/ic_baseline_favorite_24"
+        android:title="@string/favorites"
+        app:showAsAction="always" />
 
 </menu>

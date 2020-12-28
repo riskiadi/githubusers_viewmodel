@@ -2,6 +2,7 @@ package com.alkalynx.githubusers
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.alkalynx.githubusers.databinding.ActivityDetailBinding
 import com.alkalynx.githubusers.model.UsersModel
@@ -39,6 +40,5 @@ class DetailActivity : AppCompatActivity() {
 
 
     }
-
 
 }
