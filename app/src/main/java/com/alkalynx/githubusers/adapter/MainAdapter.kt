@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.alkalynx.githubusers.DetailActivity
 import com.alkalynx.githubusers.R
+import com.alkalynx.githubusers.databinding.RecyclerviewItemBinding
 import com.alkalynx.githubusers.model.UsersModel
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.recyclerview_item.view.*
 
 class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
@@ -33,13 +33,14 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
     override fun getItemCount(): Int = mData.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val binding = RecyclerviewItemBinding.bind(itemView)
         fun bind(user: UsersModel) {
             with(itemView) {
                 Glide.with(itemView.context)
                     .load(user.avatarURL)
-                    .into(user_avatar)
-                username.text = user.login
-                user_id.text = user.id.toString()
+                    .into(binding.userAvatar)
+                binding.username.text = user.login
+                binding.userId.text = user.id.toString()
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, DetailActivity::class.java).apply {
                         this.putExtra(DetailActivity.EXTRA_USER, user)

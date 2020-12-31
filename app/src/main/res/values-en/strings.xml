@@ -8,4 +8,10 @@
     <string name="search_hint">Masukan username</string>
     <string name="name_tab_one">Follower</string>
     <string name="name_tab_two">Following</string>
+    <string name="favorites">Favorites</string>
+    <string name="settings">Settings</string>
+    <string name="reminder_text">Reminder at 09:00 AM</string>
+    <string name="key_active">active_key</string>
+    <string name="active_summary">Enable</string>
+    <string name="disable_summary">Disable</string>
 </resources>

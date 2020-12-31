@@ -8,4 +8,10 @@
     <string name="search_hint">Masukan username</string>
     <string name="name_tab_one">Pengikut</string>
     <string name="name_tab_two">Diikuti</string>
+    <string name="favorites">Favorit</string>
+    <string name="settings">Pengaturan</string>
+    <string name="reminder_text">Ingatkan jam 09:00 pagi</string>
+    <string name="key_active">active_key</string>
+    <string name="active_summary">Hidup</string>
+    <string name="disable_summary">Mati</string>
 </resources>
