@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alkalynx.githubusers.DetailActivity
 import com.alkalynx.githubusers.R
 import com.alkalynx.githubusers.databinding.RecyclerviewItemBinding
+import com.alkalynx.githubusers.model.FavoritesModel
 import com.alkalynx.githubusers.model.UsersModel
 import com.bumptech.glide.Glide
 
 class FavoriteAdapter(private val activity: Activity) : RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
 
-    var listFavorites = ArrayList<UsersModel>()
+    var listFavorites = ArrayList<FavoritesModel>()
 
     set(listFavorites){
         if(listFavorites.size > 0){
@@ -24,14 +25,14 @@ class FavoriteAdapter(private val activity: Activity) : RecyclerView.Adapter<Fav
         notifyDataSetChanged()
     }
 
-    fun addItem(usersModel: UsersModel){
-        this.listFavorites.add(usersModel)
+    fun addItem(favoritesModel: FavoritesModel){
+        this.listFavorites.add(favoritesModel)
         notifyItemInserted(this.listFavorites.size - 1)
     }
 
-    fun updateItem(position: Int, usersModel: UsersModel){
-        this.listFavorites[position] = usersModel
-        notifyItemChanged(position, usersModel)
+    fun updateItem(position: Int, favoritesModel: FavoritesModel){
+        this.listFavorites[position] = favoritesModel
+        notifyItemChanged(position, favoritesModel)
     }
 
     fun removeItem(position: Int){
@@ -54,7 +55,7 @@ class FavoriteAdapter(private val activity: Activity) : RecyclerView.Adapter<Fav
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         private val binding = RecyclerviewItemBinding.bind(itemView)
-        fun bind(user: UsersModel){
+        fun bind(user: FavoritesModel){
             with(itemView) {
                 Glide.with(this)
                     .load(user.avatarURL)

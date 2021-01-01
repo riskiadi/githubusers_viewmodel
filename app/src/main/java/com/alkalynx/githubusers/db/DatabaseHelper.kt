@@ -16,7 +16,7 @@ internal class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATAB
                 " ${UserColumns.USER_ID} INTEGER NOT NULL," +
                 " ${UserColumns.USERNAME} TEXT NOT NULL," +
                 " ${UserColumns.AVATAR} TEXT NOT NULL," +
-                " ${UserColumns.IS_FAVORITE} INTEGER DEFAULT 0"
+                " ${UserColumns.IS_FAVORITE} INTEGER DEFAULT 0)"
     }
 
     override fun onCreate(db: SQLiteDatabase) {

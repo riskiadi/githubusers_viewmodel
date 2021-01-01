@@ -34,7 +34,6 @@ class AlarmReceiver : BroadcastReceiver() {
 
         if(message!=null){
             showAlarmNotification(context, title, message, notifId)
-            Log.d("ddbug", "ketriger")
         }
 
     }
@@ -90,7 +89,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, intent, 0)
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
-        showToast(context, "Info", "Repeating alarm setup")
+        showToast(context, "Info", "Repeating alarm dibuat")
     }
 
     private fun isDateInvalid(date: String, format: String): Boolean{
@@ -110,7 +109,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val requestCode = ID_REPEATING
         val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, 0)
         alarmManager.cancel(pendingIntent)
-        showToast(context, "Info", "Alarm cancelled")
+        showToast(context, "Info", "Alarm dibatalkan")
     }
 
 }

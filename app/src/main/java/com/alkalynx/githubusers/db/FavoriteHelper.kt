@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import com.alkalynx.githubusers.db.DatabaseContract.UserColumns.Companion.TABLE_NAME
+import com.alkalynx.githubusers.db.DatabaseContract.UserColumns.Companion.USER_ID
 import com.alkalynx.githubusers.db.DatabaseContract.UserColumns.Companion._ID
 
 class FavoriteHelper(context: Context) {
@@ -20,11 +21,11 @@ class FavoriteHelper(context: Context) {
         private val INSTANCE: FavoriteHelper? = null
         private lateinit var databaseHelper: DatabaseHelper
         private lateinit var database: SQLiteDatabase
-        fun getInstance(context: Context){
-            INSTANCE ?: synchronized(this){
+        fun getInstance(context: Context) =
+            INSTANCE ?: synchronized(this) {
                 INSTANCE ?: FavoriteHelper(context)
             }
-        }
+
     }
 
     @Throws(SQLException::class)
@@ -53,7 +54,7 @@ class FavoriteHelper(context: Context) {
         return database.query(
             DATABASE_TABLE,
             null,
-            "$_ID = ?",
+            "$USER_ID = ?",
             arrayOf(id),
             null,
             null,
@@ -74,7 +75,7 @@ class FavoriteHelper(context: Context) {
         return database.update(
             DATABASE_TABLE,
             values,
-            "$_ID = ?",
+            "$USER_ID = ?",
             arrayOf(id),
         )
     }
@@ -82,7 +83,7 @@ class FavoriteHelper(context: Context) {
     fun delete(id: String): Int{
         return database.delete(
             DATABASE_TABLE,
-            "$_ID = '$id'",
+            "$USER_ID = '$id'",
             null
         )
     }
