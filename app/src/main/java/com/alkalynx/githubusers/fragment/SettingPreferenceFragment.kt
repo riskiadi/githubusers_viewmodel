@@ -2,9 +2,7 @@ package com.alkalynx.githubusers.fragment
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.res.Resources
 import android.os.Bundle
-import androidx.preference.CheckBoxPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.alkalynx.githubusers.AlarmReceiver

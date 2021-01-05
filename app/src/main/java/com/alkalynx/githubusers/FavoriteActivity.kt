@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alkalynx.githubusers.adapter.FavoriteAdapter
 import com.alkalynx.githubusers.databinding.ActivityFavoriteBinding

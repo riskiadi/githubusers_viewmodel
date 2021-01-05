@@ -3,7 +3,6 @@ package com.alkalynx.githubusers
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
-import com.alkalynx.githubusers.adapter.FavoriteAdapter
 import com.alkalynx.githubusers.databinding.ActivityDetailBinding
 import com.alkalynx.githubusers.model.UsersModel
 import com.alkalynx.githubusers.view_model.DetailViewModel

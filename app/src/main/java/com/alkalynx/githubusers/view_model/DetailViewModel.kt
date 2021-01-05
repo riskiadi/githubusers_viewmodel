@@ -133,16 +133,4 @@ class DetailViewModel : ViewModel() {
 
     }
 
-//    private fun loadDatabaseAsync(cursorData: Cursor){
-//        GlobalScope.launch(Dispatchers.Main) {
-//            val temp = async(Dispatchers.IO) {
-//                MappingHelper.mapCursorToArrayList(cursorData)
-//            }
-//            val favorite = temp.await()
-//            if(favorite.size>0){
-//                mIsFavorite.postValue(favorite.first().id)
-//            }
-//        }
-//    }
-
 }
