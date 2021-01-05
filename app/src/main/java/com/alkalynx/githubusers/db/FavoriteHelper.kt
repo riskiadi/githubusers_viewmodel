@@ -7,7 +7,6 @@ import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import com.alkalynx.githubusers.db.DatabaseContract.UserColumns.Companion.TABLE_NAME
 import com.alkalynx.githubusers.db.DatabaseContract.UserColumns.Companion.USER_ID
-import com.alkalynx.githubusers.db.DatabaseContract.UserColumns.Companion._ID
 
 class FavoriteHelper(context: Context) {
 
@@ -46,7 +45,7 @@ class FavoriteHelper(context: Context) {
             null,
             null,
             null,
-            "$_ID ASC"
+            "$USER_ID ASC"
         )
     }
 
@@ -63,11 +62,20 @@ class FavoriteHelper(context: Context) {
         )
     }
 
-    fun insert(values: ContentValues): Long{
+    fun insert(values: ContentValues?): Long{
         return database.insert(
             DATABASE_TABLE,
             null,
             values
+        )
+    }
+
+    fun insertWithOnConflict(values: ContentValues?): Long{
+        return database.insertWithOnConflict(
+            DATABASE_TABLE,
+            null,
+            values,
+            SQLiteDatabase.CONFLICT_IGNORE
         )
     }
 

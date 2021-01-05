@@ -1,14 +1,10 @@
 package com.alkalynx.githubusers
 
-import android.content.ContentValues
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import com.alkalynx.githubusers.adapter.FavoriteAdapter
 import com.alkalynx.githubusers.databinding.ActivityDetailBinding
-import com.alkalynx.githubusers.db.DatabaseContract
-import com.alkalynx.githubusers.db.FavoriteHelper
 import com.alkalynx.githubusers.model.UsersModel
 import com.alkalynx.githubusers.view_model.DetailViewModel
 import com.bumptech.glide.Glide
@@ -21,7 +17,7 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private lateinit var detailViewModel: DetailViewModel
-    private lateinit var favoriteHelper: FavoriteHelper
+    private var mIsFavorite: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,40 +28,49 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.elevation = 0f
 
-        favoriteHelper = FavoriteHelper.getInstance(this)
         val user = intent.getParcelableExtra<UsersModel>(EXTRA_USER) as UsersModel
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager, user.login)
+        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager,user.login ?: "")
 
         detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(DetailViewModel::class.java)
+        detailViewModel.initiate(this)
 
         binding.viewPager.adapter = sectionsPagerAdapter
         binding.tabs.setupWithViewPager(binding.viewPager)
         binding.username.text = user.login
         binding.userId.text = user.id.toString()
         Glide.with(this).load(user.avatarURL).into(binding.userAvatar)
+
         binding.favButton.setOnClickListener {
-            favoriteHelper.open()
-            val values = ContentValues()
-            values.put(DatabaseContract.UserColumns.USERNAME, user.login)
-            values.put(DatabaseContract.UserColumns.USER_ID, user.id)
-            values.put(DatabaseContract.UserColumns.AVATAR, user.avatarURL)
-            values.put(DatabaseContract.UserColumns.IS_FAVORITE, 0)
-            favoriteHelper.insert(values)
-            favoriteHelper.close()
+            val isFavorite :Boolean = mIsFavorite==1
+            detailViewModel.setFavorite(isFavorite, UsersModel(user.login, user.id, user.avatarURL))
+            if(mIsFavorite==0){
+                mIsFavorite=1
+                favoriteBtnState(true)
+            }else{
+                mIsFavorite=0
+                favoriteBtnState(false)
+            }
         }
 
         if(user.id!=null){
-            detailViewModel.isFavorite(this, user.id).observe(this, {isFavorite->
-                Log.d("ddbug", isFavorite.toString())
-                if(isFavorite<=0){
-                    binding.favButton.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-                }else{
-                    binding.favButton.setImageResource(R.drawable.ic_baseline_favorite_24)
+            detailViewModel.isFavorite(user.id).observe(this, { isFavorite ->
+                mIsFavorite = isFavorite
+                if (isFavorite <= 0) {
+                    favoriteBtnState(false)
+                } else {
+                    favoriteBtnState(true)
                 }
             })
         }
 
 
+    }
+
+    fun favoriteBtnState(state: Boolean){
+        when(state){
+            true -> binding.favButton.setImageResource(R.drawable.ic_baseline_favorite_24)
+            else -> binding.favButton.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+        }
 
     }
 

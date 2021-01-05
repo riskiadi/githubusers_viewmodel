@@ -35,18 +35,16 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = RecyclerviewItemBinding.bind(itemView)
         fun bind(user: UsersModel) {
-            with(itemView) {
-                Glide.with(itemView.context)
-                    .load(user.avatarURL)
-                    .into(binding.userAvatar)
-                binding.username.text = user.login
-                binding.userId.text = user.id.toString()
-                itemView.setOnClickListener {
-                    val intent = Intent(itemView.context, DetailActivity::class.java).apply {
-                        this.putExtra(DetailActivity.EXTRA_USER, user)
-                    }
-                    itemView.context.startActivity(intent)
+            Glide.with(itemView.context)
+                .load(user.avatarURL)
+                .into(binding.userAvatar)
+            binding.username.text = user.login
+            binding.userId.text = user.id.toString()
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, DetailActivity::class.java).apply {
+                    this.putExtra(DetailActivity.EXTRA_USER, user)
                 }
+                itemView.context.startActivity(intent)
             }
         }
     }

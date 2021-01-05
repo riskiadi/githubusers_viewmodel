@@ -1,18 +1,24 @@
 package com.alkalynx.githubusers.db
 
+import android.net.Uri
 import android.provider.BaseColumns
+import com.alkalynx.githubusers.db.DatabaseContract.UserColumns.Companion.TABLE_NAME
 
-internal class DatabaseContract {
+object DatabaseContract {
+
+    const val AUTHORITY = "com.alkalynx.githubusers"
+    const val SCHEME = "content"
 
     internal class UserColumns : BaseColumns {
         companion object {
-            const val TABLE_NAME = "users"
-            const val _ID = "_id"
-            const val USERNAME = "github_username"
+            const val TABLE_NAME = "favorites"
             const val USER_ID = "github_id"
+            const val USERNAME = "github_username"
             const val AVATAR = "github_avatar"
-            const val IS_FAVORITE = "is_favorite"
         }
     }
+
+    val CONTENT_URI : Uri = Uri.Builder().scheme(SCHEME).authority(AUTHORITY).appendPath(TABLE_NAME).build()
+
 
 }

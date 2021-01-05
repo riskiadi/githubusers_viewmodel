@@ -9,13 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alkalynx.githubusers.DetailActivity
 import com.alkalynx.githubusers.R
 import com.alkalynx.githubusers.databinding.RecyclerviewItemBinding
-import com.alkalynx.githubusers.model.FavoritesModel
 import com.alkalynx.githubusers.model.UsersModel
 import com.bumptech.glide.Glide
 
 class FavoriteAdapter(private val activity: Activity) : RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
 
-    var listFavorites = ArrayList<FavoritesModel>()
+    var listFavorites = ArrayList<UsersModel>()
 
     set(listFavorites){
         if(listFavorites.size > 0){
@@ -25,12 +24,12 @@ class FavoriteAdapter(private val activity: Activity) : RecyclerView.Adapter<Fav
         notifyDataSetChanged()
     }
 
-    fun addItem(favoritesModel: FavoritesModel){
+    fun addItem(favoritesModel: UsersModel){
         this.listFavorites.add(favoritesModel)
         notifyItemInserted(this.listFavorites.size - 1)
     }
 
-    fun updateItem(position: Int, favoritesModel: FavoritesModel){
+    fun updateItem(position: Int, favoritesModel: UsersModel){
         this.listFavorites[position] = favoritesModel
         notifyItemChanged(position, favoritesModel)
     }
@@ -55,7 +54,7 @@ class FavoriteAdapter(private val activity: Activity) : RecyclerView.Adapter<Fav
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         private val binding = RecyclerviewItemBinding.bind(itemView)
-        fun bind(user: FavoritesModel){
+        fun bind(user: UsersModel){
             with(itemView) {
                 Glide.with(this)
                     .load(user.avatarURL)
@@ -64,7 +63,7 @@ class FavoriteAdapter(private val activity: Activity) : RecyclerView.Adapter<Fav
                 binding.userId.text = user.id.toString()
             }
             itemView.setOnClickListener {
-                val intent = Intent(itemView.context, DetailActivity::class.java).apply {
+                val intent = Intent(activity, DetailActivity::class.java).apply {
                     this.putExtra(DetailActivity.EXTRA_USER, user)
                     setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 }
