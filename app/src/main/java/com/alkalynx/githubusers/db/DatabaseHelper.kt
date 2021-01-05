@@ -12,11 +12,9 @@ internal class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATAB
         private const val DATABASE_NAME = "dbgithub"
         private const val DATABASE_VERSION = 1
         private const val SQL_CREATE_TABLE_GITHUB = "CREATE TABLE $TABLE_NAME" +
-                " (${UserColumns._ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
-                " ${UserColumns.USER_ID} INTEGER NOT NULL," +
+                " (${UserColumns.USER_ID} INTEGER PRIMARY KEY," +
                 " ${UserColumns.USERNAME} TEXT NOT NULL," +
-                " ${UserColumns.AVATAR} TEXT NOT NULL," +
-                " ${UserColumns.IS_FAVORITE} INTEGER DEFAULT 0)"
+                " ${UserColumns.AVATAR} TEXT NOT NULL)"
     }
 
     override fun onCreate(db: SQLiteDatabase) {

@@ -13,4 +13,6 @@
     <string name="key_active">active_key</string>
     <string name="active_summary">Enable</string>
     <string name="disable_summary">Disable</string>
+    <string name="data_not_available">Data not available</string>
+    <string name="browse_users_and_add_them_to_your_favorites_list">Browse users and add them to your favorites list</string>
 </resources>

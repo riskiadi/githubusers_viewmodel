@@ -37,11 +37,7 @@ class MainViewModel : ViewModel() {
                             val userData = UsersModel(
                                 json.getString("login"),
                                 json.getLong("id"),
-                                json.getString("node_id"),
-                                json.getString("avatar_url"),
-                                json.getString("url"),
-                                json.getString("followers_url"),
-                                json.getString("following_url"),
+                                json.getString("avatar_url")
                             )
                             userItem.add(userData)
                         }

@@ -1,33 +1,38 @@
 package com.alkalynx.githubusers.view_model
 
-import android.content.Context
+import android.app.Activity
+import android.content.ContentValues
+import android.database.ContentObserver
 import android.database.Cursor
+import android.net.Uri
+import android.os.Handler
+import android.os.HandlerThread
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.alkalynx.githubusers.db.FavoriteHelper
-import com.alkalynx.githubusers.helper.MappingHelper
+import com.alkalynx.githubusers.db.DatabaseContract
+import com.alkalynx.githubusers.db.DatabaseContract.CONTENT_URI
 import com.alkalynx.githubusers.model.UsersModel
 import com.alkalynx.githubusers.utils.Constant
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONArrayRequestListener
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import org.json.JSONArray
 import java.lang.Exception
 
 class DetailViewModel : ViewModel() {
 
     val const: Constant = Constant()
+    private var mActivity: Activity? = null
 
     private val mData = MutableLiveData<ArrayList<UsersModel>>()
     private val mIsFavorite = MutableLiveData<Int>()
-    private lateinit var favoriteHelper: FavoriteHelper
+
+    fun initiate(activity: Activity){
+        this.mActivity = activity
+    }
 
     fun searchFollower(username: String) {
         try {
@@ -35,7 +40,7 @@ class DetailViewModel : ViewModel() {
             AndroidNetworking.get(const.followerURL)
                 .addPathParameter("username", username)
                 .addHeaders("Authorization", "token ${const.token}")
-                .setPriority(Priority.MEDIUM)
+                .setPriority(Priority.IMMEDIATE)
                 .build()
                 .getAsJSONArray(object : JSONArrayRequestListener {
                     override fun onResponse(response: JSONArray) {
@@ -45,11 +50,7 @@ class DetailViewModel : ViewModel() {
                             val userData = UsersModel(
                                 json.getString("login"),
                                 json.getLong("id"),
-                                json.getString("node_id"),
                                 json.getString("avatar_url"),
-                                json.getString("url"),
-                                json.getString("followers_url"),
-                                json.getString("following_url"),
                             )
                             userItem.add(userData)
                         }
@@ -72,7 +73,7 @@ class DetailViewModel : ViewModel() {
             AndroidNetworking.get(const.followingURL)
                 .addPathParameter("username", username)
                 .addHeaders("Authorization", "token ${const.token}")
-                .setPriority(Priority.MEDIUM)
+                .setPriority(Priority.IMMEDIATE)
                 .build()
                 .getAsJSONArray(object : JSONArrayRequestListener {
                     override fun onResponse(response: JSONArray) {
@@ -82,11 +83,7 @@ class DetailViewModel : ViewModel() {
                             val userData = UsersModel(
                                 json.getString("login"),
                                 json.getLong("id"),
-                                json.getString("node_id"),
-                                json.getString("avatar_url"),
-                                json.getString("url"),
-                                json.getString("followers_url"),
-                                json.getString("following_url"),
+                                json.getString("avatar_url")
                             )
                             userItem.add(userData)
                         }
@@ -107,23 +104,33 @@ class DetailViewModel : ViewModel() {
         return mData
     }
 
-    fun isFavorite(context: Context, userId: Long): LiveData<Int>{
-        favoriteHelper = FavoriteHelper.getInstance(context)
-        favoriteHelper.open()
-        loadDatabaseAsync(favoriteHelper.queryById(userId.toString()))
+    fun isFavorite(userId: Long): LiveData<Int> {
+        val uriWithId: Uri = Uri.parse(CONTENT_URI.toString() + "/" + userId.toString())
+        val dbCursor: Cursor? = mActivity?.contentResolver?.query(uriWithId, null, null, null, null)
+        if (dbCursor != null && dbCursor.count >= 1) {
+            mIsFavorite.postValue(1)
+        } else {
+            mIsFavorite.postValue(0)
+        }
         return mIsFavorite
     }
 
-    private fun loadDatabaseAsync(cursorData: Cursor){
-        GlobalScope.launch(Dispatchers.Main) {
-            val temp = async(Dispatchers.IO) {
-                MappingHelper.mapCursorToArrayList(cursorData)
-            }
-            val favorite = temp.await()
-            if(favorite.size>0){
-                mIsFavorite.postValue(favorite.first().isFavorites)
+    fun setFavorite(favorite: Boolean, favoritesModel: UsersModel){
+
+        if(favoritesModel.id!=null){
+            if(favorite){
+                val uri:Uri = Uri.parse(CONTENT_URI.toString()+"/"+favoritesModel.id)
+                mActivity?.contentResolver?.delete(uri, null,null)
+            }else{
+                val values = ContentValues()
+                values.put(DatabaseContract.UserColumns.USERNAME, favoritesModel.login)
+                values.put(DatabaseContract.UserColumns.USER_ID, favoritesModel.id)
+                values.put(DatabaseContract.UserColumns.AVATAR, favoritesModel.avatarURL)
+                val uriWithId : Uri = Uri.parse(CONTENT_URI.toString() + "/" + favoritesModel.id.toString())
+                mActivity?.contentResolver?.insert(uriWithId, values)
             }
         }
+
     }
 
 }

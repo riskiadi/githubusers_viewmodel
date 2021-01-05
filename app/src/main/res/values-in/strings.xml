@@ -14,4 +14,6 @@
     <string name="key_active">active_key</string>
     <string name="active_summary">Hidup</string>
     <string name="disable_summary">Mati</string>
+    <string name="data_not_available">Data tidak tersedia</string>
+    <string name="browse_users_and_add_them_to_your_favorites_list">Jelajahi pengguna dan tambahkan mereka ke daftar favorit Anda</string>
 </resources>
